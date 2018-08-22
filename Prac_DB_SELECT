@@ -1,0 +1,49 @@
+# JDBC
+package JDBC_Example;
+
+import java.sql.*; 
+
+public class StatInsert3 {
+
+	public static void main(String[] args) {
+
+		String url = "jdbc:oracle:thin:@localhost:1521:orcl";
+		String user = "scott";
+		String pass = "tiger";
+
+		try {
+			// 1.드라이버 로딩
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			
+			// 2. 연결객체 얻어오기
+			Connection con = DriverManager.getConnection(url, user, pass);
+			System.out.println("연결성공");
+
+			// 3. sql문장
+			String sql = "SELECT * FROM emp";
+			
+			// 4. 전송객체
+			Statement st = con.createStatement();
+
+			// 5. 전송
+			ResultSet rs = st.executeQuery(sql);
+
+			while (rs.next()) { // if 도 가능
+				System.out.print(rs.getString("EMPNO") + "\t");
+				// 나머지
+				System.out.print(rs.getString("ENAME") + "\n");
+				// 나머지
+
+			}
+
+			rs.close();
+			st.close();
+			con.close();
+			
+		} catch (Exception ex) {
+			System.out.println("실패 : " + ex.getMessage());
+			ex.printStackTrace();
+		}
+
+	}
+}
